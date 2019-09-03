@@ -90,5 +90,24 @@ describe('bar routes', () => {
           notes: 'Danny thinks its a hipster place'
         });
       });
+  })
+
+  it('deletes a bar review', async() => {
+    const bar = await Bar.create({
+      name: 'the Standard',
+      address: '14 NE 22nd Ave, Portland, OR 97232',
+      notes: 'frozen slushies'
+    });
+    return request(app)
+      .delete(`/api/v1/bars/${bar._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: bar.name,
+          address: bar.address,
+          notes: bar.notes,
+          __v: 0
+        });
+      });
   });
 });
