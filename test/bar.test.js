@@ -66,4 +66,29 @@ describe('bar routes', () => {
         });
       });
   });
+
+  it('can get a bar review by id', async() => {
+    const bar = await Bar.create([
+      {
+        name: 'Paymaster',
+        address: 'somewhere in pdx',
+        notes: 'Danny thinks its a hipster place'
+      },
+      {
+        name: 'Yurs',
+        address: '717 NW 16th Ave, Portland, OR 97209',
+        notes: 'opposite of hipster bar. super dive'
+      }
+    ]);
+    return request(app)
+      .get(`/api/v1/bars/${bar[0]._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          name: 'Paymaster',
+          address: 'somewhere in pdx',
+          notes: 'Danny thinks its a hipster place'
+        });
+      });
+  });
 });
